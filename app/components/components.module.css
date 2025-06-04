@@ -1,0 +1,14 @@
+.codeBox {
+  font-size: 14px;
+  height: 600px;
+  width: 80%;
+  overflow: auto;
+  border-radius: 0px 10px 10px 0px;
+  cursor: text;
+}
+
+.codeBox .codeBoxPre {
+  overflow: visible;
+  margin: 0px;
+  padding: 1em;
+}
