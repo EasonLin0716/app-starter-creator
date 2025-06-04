@@ -1,4 +1,53 @@
+import { extensionToPrismLanguage } from './components/FileBrowser/CodeBox';
 import FileBrowser from './components/FileBrowser/FileBrowser';
+
+export interface File {
+  name: string;
+  code: string;
+  type: keyof typeof extensionToPrismLanguage;
+}
+
+const files: File[] = [
+  {
+    name: 'index.html',
+    code: `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Empty project</title>
+      <meta charset="utf-8">
+      <link href="main.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="main.js"></script>
+  </body>
+</html>`,
+    type: 'html'
+  },
+  {
+    name: 'package.json',
+    code: `{
+  "name": "empty-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "clean": "rm dist/bundle.js",
+    "build-dev": "webpack --mode development",
+    "build-prod": "webpack --mode production"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1"
+  }
+}`,
+    type: 'json'
+  }
+];
 export default function Home() {
   return (
     <>
@@ -19,23 +68,7 @@ export default function Home() {
             <span>Rspack</span>
           </label>
         </div>
-        <FileBrowser
-          code={`<!DOCTYPE html>
-<html>
-  <head>
-    <title>Empty project</title>
-      <meta charset="utf-8">
-      <link href="main.css" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="main.js"></script>
-  </body>
-</html>
-          `}
-          extKey="html"
-          files={['index.html']}
-        />
+        <FileBrowser files={files} />
       </main>
     </>
   );

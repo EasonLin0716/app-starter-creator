@@ -1,15 +1,19 @@
 import styles from './fileBrowser.module.css';
 
 interface FileListProps {
-  files: string[];
+  fileNames: string[];
+  selectedIndex: number;
+  setSelectedIndex: (index: number) => void;
 }
 
-export default function FileList({ files }: FileListProps) {
+export default function FileList({ fileNames, selectedIndex, setSelectedIndex }: FileListProps) {
   return (
     <div className={styles.files}>
       <ul>
-        {files.map((file) => (
-          <li key={file}>{file}</li>
+        {fileNames.map((fileName, index) => (
+          <li key={index} className={selectedIndex === index ? styles.selected : ''} onClick={() => setSelectedIndex(index)}>
+            {fileName}
+          </li>
         ))}
       </ul>
     </div>
