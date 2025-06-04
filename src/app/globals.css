@@ -1,3 +1,5 @@
+@unocss all;
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
