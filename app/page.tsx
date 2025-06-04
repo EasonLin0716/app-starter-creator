@@ -1,3 +1,6 @@
+'use client';
+import { useState } from 'react';
+import Downloader from './components/Downloader/Downloader';
 import { extensionToPrismLanguage } from './components/FileBrowser/CodeBox';
 import FileBrowser from './components/FileBrowser/FileBrowser';
 
@@ -49,6 +52,7 @@ const files: File[] = [
   }
 ];
 export default function Home() {
+  const [projectName, setProjectName] = useState('App Starter Project');
   return (
     <>
       <main className="py-20 px-12 flex flex-col items-center gap-5">
@@ -68,7 +72,10 @@ export default function Home() {
             <span>Rspack</span>
           </label>
         </div>
-        <FileBrowser files={files} />
+        <div className="flex gap-2">
+          <Downloader files={files} projectName={projectName} setProjectName={setProjectName} />
+          <FileBrowser files={files} />
+        </div>
       </main>
     </>
   );
