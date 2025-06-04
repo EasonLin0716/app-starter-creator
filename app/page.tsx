@@ -1,4 +1,4 @@
-import CodeBox from './components/CodeBox';
+import FileBrowser from './components/FileBrowser/FileBrowser';
 export default function Home() {
   return (
     <>
@@ -19,8 +19,8 @@ export default function Home() {
             <span>Rspack</span>
           </label>
         </div>
-        <CodeBox extKey="html">
-          {`<!DOCTYPE html>
+        <FileBrowser
+          code={`<!DOCTYPE html>
 <html>
   <head>
     <title>Empty project</title>
@@ -33,7 +33,9 @@ export default function Home() {
   </body>
 </html>
           `}
-        </CodeBox>
+          extKey="html"
+          files={['index.html']}
+        />
       </main>
     </>
   );

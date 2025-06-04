@@ -1,8 +1,8 @@
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import styles from './components.module.css';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { materialDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import styles from './fileBrowser.module.css';
 
-const extensionToPrismLanguage = {
+export const extensionToPrismLanguage = {
   babelrc: 'javascript',
   css: 'css',
   gitignore: 'bash',
@@ -20,12 +20,17 @@ const extensionToPrismLanguage = {
   vue: 'markup'
 };
 
-export default function CodeBox({ children, extKey }: { children: string; extKey: keyof typeof extensionToPrismLanguage }) {
+interface CodeBoxProps {
+  children: string;
+  extKey: keyof typeof extensionToPrismLanguage;
+}
+
+export default function CodeBox({ children, extKey }: CodeBoxProps) {
   const codeClassName = extensionToPrismLanguage[extKey] || '';
   return (
     <div className={styles.codeBox}>
       <pre className={styles.codeBoxPre}>
-        <SyntaxHighlighter language={codeClassName} style={docco}>
+        <SyntaxHighlighter language={codeClassName} style={materialDark}>
           {children}
         </SyntaxHighlighter>
       </pre>
