@@ -1,6 +1,7 @@
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import { File } from '../../page';
+import styles from './downloader.module.css';
 
 interface DownloaderProps {
   files: File[];
@@ -19,10 +20,12 @@ const downloadZip = async (files: File[], projectName: string) => {
 
 export default function Downloader({ files, projectName, setProjectName }: DownloaderProps) {
   return (
-    <div>
-      <p>Project Name</p>
-      <input value={projectName} type="text" onChange={(e) => setProjectName(e.target.value)} />
-      <button onClick={() => downloadZip(files, projectName)}>Download</button>
+    <div className={styles.downloader}>
+      <p className={styles.projectName}>Project Name</p>
+      <input className="p-2" value={projectName} type="text" onChange={(e) => setProjectName(e.target.value)} />
+      <button className={styles.button} onClick={() => downloadZip(files, projectName)}>
+        Download
+      </button>
     </div>
   );
 }

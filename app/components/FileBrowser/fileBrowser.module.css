@@ -1,50 +1,35 @@
 .fileBrowser {
-  font-size: 15px;
-  color: #969696;
-  background-color: #2e3134;
-  margin-top: 14px;
-  margin-bottom: 50px;
-  display: flex;
-  cursor: pointer;
+  @apply flex text-15px color-#969696 cursor-pointer w-full bg-#2e3134;
   border-radius: 10px;
   box-shadow: 0px 18px 30px 3px rgba(0, 0, 0, 0.75);
-  width: 100%;
 }
 
 .codeBox {
-  font-size: 14px;
-  flex-grow: 1;
-  height: 600px;
-  overflow: auto;
+  @apply text-14px flex-grow-1 h-600px overflow-auto cursor-text;
   border-radius: 0px 10px 10px 0px;
-  cursor: text;
   background-color: rgb(47, 47, 47);
 }
 
 .codeBox .codeBoxPre {
-  overflow: visible;
-  margin: 0px;
-  padding: 1em;
+  @apply overflow-visible;
 }
 
 .files {
+  @apply max-w-200px;
   flex: 1 1 200px;
-  max-width: 200px;
 }
 
 .files ul {
+  @apply m-0 py-4 px-0;
   list-style-type: none;
-  margin: 0;
-  padding: 17px 0px;
 }
 
 .files li {
-  padding: 3px 17px;
+  @apply py-1 px-4;
 }
 
 .files li.selected {
-  background: #1d1f21;
-  color: #e8e8e8;
+  @apply bg-#1d1f21 text-#e8e8e8;
 }
 
 .files .highlighted {

@@ -1,0 +1,13 @@
+.downloader {
+  @apply flex flex-col gap-3;
+}
+
+.projectName {
+  @apply text-15px;
+}
+
+.button {
+  @apply py-2 text-15px bg-coolGray hover:bg-blueGray;
+  transition: all 0.3s linear;
+  border-radius: 8px;
+}

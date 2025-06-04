@@ -52,7 +52,7 @@ const files: File[] = [
   }
 ];
 export default function Home() {
-  const [projectName, setProjectName] = useState('App Starter Project');
+  const [projectName, setProjectName] = useState('app_starter_project');
   return (
     <>
       <main className="py-20 px-12 flex flex-col items-center gap-5">
@@ -72,7 +72,7 @@ export default function Home() {
             <span>Rspack</span>
           </label>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-full max-w-1024px">
           <Downloader files={files} projectName={projectName} setProjectName={setProjectName} />
           <FileBrowser files={files} />
         </div>
