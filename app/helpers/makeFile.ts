@@ -62,6 +62,44 @@ export const makeWebpackIndexJS = (): File => ({
   type: 'js'
 });
 
+export const makeWebpackREADME = ({ projectName }: { projectName: string }): File => ({
+  name: 'README.md',
+  code: `# ${projectName}
+
+Frontend app starter
+
+## Building and running on localhost
+
+First install dependencies:
+
+\`\`\`sh
+npm install
+\`\`\`
+
+To create a production build:
+
+\`\`\`sh
+npm run build-prod
+\`\`\`
+
+To create a development build:
+
+\`\`\`sh
+npm run build-dev
+\`\`\`
+
+## Running
+
+\`\`\`sh
+node dist/bundle.js
+\`\`\`
+
+## Credits
+
+Made with [createapp.dev](https://createapp.dev/)`,
+  type: 'md'
+});
+
 export const makeFile = (tool: Tool, { projectName = 'app_starter' }: { projectName: string }) => {
   const fileFunctionMap: Record<Tool, (projectName: string) => File[]> = {
     Webpack: (projectName: string) => [
@@ -70,19 +108,22 @@ export const makeFile = (tool: Tool, { projectName = 'app_starter' }: { projectN
         projectName
       }),
       makeWebpackIndexJS(),
-      makeWebpackConfig()
+      makeWebpackConfig(),
+      makeWebpackREADME({ projectName })
     ],
     Vite: (projectName: string) => [
       makeHTML(),
       makeJSON({
         projectName
-      })
+      }),
+      makeWebpackREADME({ projectName })
     ],
     RSPack: (projectName: string) => [
       makeHTML(),
       makeJSON({
         projectName
-      })
+      }),
+      makeWebpackREADME({ projectName })
     ]
   };
 
