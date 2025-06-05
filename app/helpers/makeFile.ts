@@ -1,5 +1,8 @@
 import { File } from '../interfaces/File';
 import { Tool } from '../interfaces/Tool';
+import { makeRspack } from './makeRspack';
+import { makeVite } from './makeVite';
+import { makeWebpack } from './makeWebpack';
 import { sortFile } from './sortFile';
 
 export const makeHTML = (): File => ({
@@ -18,113 +21,39 @@ export const makeHTML = (): File => ({
   type: 'html'
 });
 
-export const makeJSON = ({ projectName }: { projectName: string }): File => ({
-  name: 'package.json',
-  code: `{
-  "name": "${projectName}",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "scripts": {
-    "clean": "rm dist/bundle.js",
-    "build-dev": "webpack --mode development",
-    "build-prod": "webpack --mode production"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "webpack": "^5",
-    "webpack-cli": "^6"
-  }
-}`,
-  type: 'json'
-});
+const makeGitIgnore = (): File => ({
+  name: '.gitignore',
+  code: `# Local
+.DS_Store
+*.local
+*.log*
 
-export const makeWebpackConfig = (): File => ({
-  name: 'webpack.config.js',
-  code: `const path = require('path');
+# Dist
+node_modules
+dist/
 
-module.exports = {
-  entry: './src/index.js',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
-  },
-};`,
-  type: 'js'
-});
-
-export const makeWebpackIndexJS = (): File => ({
-  name: 'src/index.js',
-  code: `document.querySelector('#app').textContent = 'Hello, world!'`,
-  type: 'js'
-});
-
-export const makeWebpackREADME = ({ projectName }: { projectName: string }): File => ({
-  name: 'README.md',
-  code: `# ${projectName}
-
-Frontend app starter
-
-## Building and running on localhost
-
-First install dependencies:
-
-\`\`\`sh
-npm install
-\`\`\`
-
-To create a production build:
-
-\`\`\`sh
-npm run build-prod
-\`\`\`
-
-To create a development build:
-
-\`\`\`sh
-npm run build-dev
-\`\`\`
-
-## Running
-
-\`\`\`sh
-node dist/bundle.js
-\`\`\`
-
-## Credits
-
-Made with [createapp.dev](https://createapp.dev/)`,
-  type: 'md'
+# IDE
+.vscode/*
+!.vscode/extensions.json
+.idea
+`,
+  type: 'gitignore'
 });
 
 export const makeFile = (tool: Tool, { projectName = 'app_starter' }: { projectName: string }) => {
   const fileFunctionMap: Record<Tool, (projectName: string) => File[]> = {
-    Webpack: (projectName: string) => [
-      makeHTML(),
-      makeJSON({
-        projectName
-      }),
-      makeWebpackIndexJS(),
-      makeWebpackConfig(),
-      makeWebpackREADME({ projectName })
-    ],
-    Vite: (projectName: string) => [
-      makeHTML(),
-      makeJSON({
-        projectName
-      }),
-      makeWebpackREADME({ projectName })
-    ],
-    RSPack: (projectName: string) => [
-      makeHTML(),
-      makeJSON({
-        projectName
-      }),
-      makeWebpackREADME({ projectName })
-    ]
+    Webpack: (projectName: string) => {
+      const webpack = makeWebpack();
+      return [makeGitIgnore(), webpack.html(), webpack.json({ projectName }), webpack.config(), webpack.entry(), webpack.readme({ projectName })];
+    },
+    Vite: (projectName: string) => {
+      const vite = makeVite();
+      return [makeGitIgnore(), vite.css(), vite.entry(), vite.html(), vite.json({ projectName }), vite.readme({ projectName }), vite.util()];
+    },
+    Rspack: (projectName: string) => {
+      const rspack = makeRspack();
+      return [makeGitIgnore(), rspack.config(), rspack.css(), rspack.entry(), rspack.json({ projectName }), rspack.readme({ projectName })];
+    }
   };
 
   return sortFile(fileFunctionMap[tool](projectName));

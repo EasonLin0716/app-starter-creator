@@ -16,4 +16,4 @@ export const prismLanguageMap = {
   vue: 'markup'
 };
 
-export const tools = ['Webpack', 'Vite', 'RSPack'] as const;
+export const tools = ['Webpack', 'Vite', 'Rspack'] as const;
