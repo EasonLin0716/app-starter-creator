@@ -1,3 +1,5 @@
+import { Dep, DepTitleEnum } from '../interfaces/Dep';
+
 export const prismLanguageMap = {
   babelrc: 'javascript',
   css: 'css',
@@ -16,4 +18,15 @@ export const prismLanguageMap = {
   vue: 'markup'
 };
 
-export const tools = ['Webpack', 'Vite', 'Rspack'] as const;
+export const tools = ['Vite', 'Webpack', 'Rspack'] as const;
+
+export const depList: Dep[] = [
+  {
+    title: DepTitleEnum.mainLibrary,
+    deps: ['No library', 'react', 'vue', 'svelte']
+  }
+];
+
+export const initialDepSelectMap: Record<DepTitleEnum, number> = {
+  [DepTitleEnum.mainLibrary]: 0
+};
