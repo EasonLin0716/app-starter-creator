@@ -1,4 +1,4 @@
-import { Dep, DepTitleEnum } from '../interfaces/Dep';
+import { DepInfo, DepTitleEnum } from '../interfaces/Dep';
 
 export const prismLanguageMap = {
   babelrc: 'javascript',
@@ -20,10 +20,27 @@ export const prismLanguageMap = {
 
 export const tools = ['Vite', 'Webpack', 'Rspack'] as const;
 
-export const depList: Dep[] = [
+export const depList: DepInfo[] = [
   {
     title: DepTitleEnum.mainLibrary,
-    deps: ['No library', 'react', 'vue', 'svelte']
+    deps: [
+      {
+        name: 'No library',
+        version: ''
+      },
+      {
+        name: 'react',
+        version: '^19'
+      },
+      {
+        name: 'vue',
+        version: '^19'
+      },
+      {
+        name: 'svelte',
+        version: '^19'
+      }
+    ]
   }
 ];
 

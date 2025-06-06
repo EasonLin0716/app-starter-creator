@@ -1,6 +1,15 @@
+import { Dep } from '../interfaces/Dep';
 import { File } from '../interfaces/File';
+import { makeJSONDepAndDevDeps } from '../utils/utils';
 
-export const makeVite = (): { html: () => File; json: ({ projectName }: { projectName: string }) => File; css: () => File; entry: () => File; util: () => File; readme: ({ projectName }: { projectName: string }) => File } => ({
+export const makeVite = (): {
+  html: () => File;
+  json: ({ projectName, depList }: { projectName: string; depList: Dep[] }) => File;
+  css: () => File;
+  entry: () => File;
+  util: () => File;
+  readme: ({ projectName }: { projectName: string }) => File;
+} => ({
   html: makeHTML,
   json: makeJSON,
   css: makeMainCSS,
@@ -8,6 +17,12 @@ export const makeVite = (): { html: () => File; json: ({ projectName }: { projec
   util: utilFuncJS,
   readme: makeREADME
 });
+
+export const VITE_DEP: Dep = {
+  name: 'vite',
+  version: '^7',
+  isDevDep: true
+};
 
 const makeMainCSS = (): File => ({
   name: 'src/style.css',
@@ -167,9 +182,10 @@ const makeHTML = (): File => ({
   type: 'html'
 });
 
-const makeJSON = ({ projectName }: { projectName: string }): File => ({
-  name: 'package.json',
-  code: `{
+const makeJSON = ({ projectName, depList }: { projectName: string; depList: Dep[] }): File => {
+  return {
+    name: 'package.json',
+    code: `{
   "name": "${projectName}",
   "private": true,
   "version": "0.0.0",
@@ -179,12 +195,11 @@ const makeJSON = ({ projectName }: { projectName: string }): File => ({
     "build": "vite build",
     "preview": "vite preview"
   },
-  "devDependencies": {
-    "vite": "^7"
-  }
+  ${makeJSONDepAndDevDeps(depList)}
 }`,
-  type: 'json'
-});
+    type: 'json'
+  };
+};
 
 const makeREADME = ({ projectName }: { projectName: string }): File => ({
   name: 'README.md',
