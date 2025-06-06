@@ -28,7 +28,31 @@ export const depList: DepSelect[] = [
         name: 'No library'
       },
       {
-        name: 'React'
+        name: 'React',
+        dependencies: [
+          {
+            name: 'react',
+            version: '^19'
+          },
+          {
+            name: 'react-dom',
+            version: '^19'
+          }
+        ],
+        devDependencies: [
+          {
+            name: '@types/react',
+            version: '^19'
+          },
+          {
+            name: '@types/react-dom',
+            version: '^19'
+          },
+          {
+            name: '@vitejs/plugin-react',
+            version: '^4'
+          }
+        ]
       },
       {
         name: 'Vue'
