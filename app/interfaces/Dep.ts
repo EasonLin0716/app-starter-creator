@@ -1,3 +1,9 @@
+export interface Dep {
+  name: string;
+  version: string;
+  isDevDep?: boolean;
+}
+
 export enum DepTitleEnum {
   mainLibrary = 'Main library'
 }
