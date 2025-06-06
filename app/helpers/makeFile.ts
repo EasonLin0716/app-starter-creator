@@ -41,7 +41,7 @@ dist/
   type: 'gitignore'
 });
 
-export const makeFile = (tool: Tool, { projectName = 'app_starter' }: { projectName: string }) => {
+export const makeFile = (tool: Tool, { projectName = 'app_starter', mainLibrary = MainLibraryEnum.noLibrary }: { projectName: string; mainLibrary: MainLibraryEnum }) => {
   const fileFunctionMap: Record<Tool, (projectName: string) => File[]> = {
     Webpack: (projectName: string) => {
       const webpack = makeWebpack();
@@ -49,7 +49,7 @@ export const makeFile = (tool: Tool, { projectName = 'app_starter' }: { projectN
     },
     Vite: (projectName: string) => {
       const vite = makeVite();
-      return [makeGitIgnore(), vite.css(), vite.entry(), vite.html(), vite.json({ projectName, depList: [VITE_DEP].concat(makeMainLibraryDependencies(MainLibraryEnum.react)) }), vite.readme({ projectName }), vite.util()];
+      return [makeGitIgnore(), vite.css(), ...vite.entry({ mainLibrary }), vite.html(), vite.json({ projectName, depList: [VITE_DEP].concat(makeMainLibraryDependencies(MainLibraryEnum.react)) }), vite.readme({ projectName }), vite.util()];
     },
     Rspack: (projectName: string) => {
       const rspack = makeRspack();

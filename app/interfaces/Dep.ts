@@ -1,4 +1,4 @@
-import { DepTitleEnum } from '../enums/DepEnums';
+import { DepTitleEnum, MainLibraryEnum } from '../enums/DepEnums';
 
 export interface Dep {
   name: string;
@@ -12,14 +12,16 @@ export interface Dep {
   isDevDep?: boolean;
 }
 
-export type Library = {
-  name: string;
+type LibraryName = MainLibraryEnum;
+
+export type LibraryType = {
+  name: LibraryName;
   dependencies?: Dep[];
 };
 
 export interface DepSelect {
   title: DepTitleEnum;
-  deps: Library[];
+  deps: LibraryType[];
 }
 
 export type DepSelectMapType = Record<DepTitleEnum, number>;

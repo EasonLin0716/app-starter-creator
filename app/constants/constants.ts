@@ -1,4 +1,4 @@
-import { DepTitleEnum } from '../enums/DepEnums';
+import { DepTitleEnum, MainLibraryEnum } from '../enums/DepEnums';
 import { DepSelect } from '../interfaces/Dep';
 export const prismLanguageMap = {
   babelrc: 'javascript',
@@ -25,10 +25,10 @@ export const depList: DepSelect[] = [
     title: DepTitleEnum.mainLibrary,
     deps: [
       {
-        name: 'No library'
+        name: MainLibraryEnum.noLibrary
       },
       {
-        name: 'React',
+        name: MainLibraryEnum.react,
         dependencies: [
           {
             name: 'react',
@@ -56,10 +56,10 @@ export const depList: DepSelect[] = [
         ]
       },
       {
-        name: 'Vue'
+        name: MainLibraryEnum.vue
       },
       {
-        name: 'Svelte'
+        name: MainLibraryEnum.svelte
       }
     ]
   }

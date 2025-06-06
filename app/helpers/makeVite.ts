@@ -3,12 +3,13 @@ import { DepTitleEnum, MainLibraryEnum } from '../enums/DepEnums';
 import { Dep } from '../interfaces/Dep';
 import { File } from '../interfaces/File';
 import { makeJSONDepAndDevDeps } from '../utils/utils';
+import { getReactJSXFile, getReactMainFile } from './getStarterFile';
 
 export const makeVite = (): {
   html: () => File;
   json: ({ projectName, depList }: { projectName: string; depList: Dep[] }) => File;
   css: () => File;
-  entry: () => File;
+  entry: ({ mainLibrary }: { mainLibrary: MainLibraryEnum }) => File[];
   util: () => File;
   readme: ({ projectName }: { projectName: string }) => File;
 } => ({
@@ -151,9 +152,12 @@ const utilFuncJS = (): File => ({
   type: 'js'
 });
 
-const makeMainJS = (): File => ({
-  name: 'src/main.js',
-  code: `import './style.css'
+const makeMainJS = ({ mainLibrary }: { mainLibrary: MainLibraryEnum }): File[] => {
+  if (mainLibrary === MainLibraryEnum.noLibrary)
+    return [
+      {
+        name: 'src/main.js',
+        code: `import './style.css'
 import { setupCounter } from './counter.js'
 
 document.querySelector('#app').innerHTML = \`
@@ -170,10 +174,16 @@ document.querySelector('#app').innerHTML = \`
 
 setupCounter(document.querySelector('#counter'))
 `,
-  type: 'js'
-});
+        type: 'js'
+      }
+    ];
+  if (mainLibrary === MainLibraryEnum.react) {
+    return [getReactJSXFile(), getReactMainFile()];
+  }
+  return [];
+};
 
-const makeHTML = (): File => ({
+const makeHTML = (entryID = 'app'): File => ({
   name: 'index.html',
   code: `<!doctype html>
 <html lang="en">
@@ -184,7 +194,7 @@ const makeHTML = (): File => ({
     <title>Vite App</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="${entryID}"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

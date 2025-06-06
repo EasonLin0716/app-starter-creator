@@ -5,7 +5,7 @@ import Downloader from './components/Downloader/Downloader';
 import FileBrowser from './components/FileBrowser/FileBrowser';
 import ToolSelector from './components/ToolSelector/ToolSelector';
 import { depList, initialDepSelectMap, tools } from './constants/constants';
-import { DepTitleEnum } from './enums/DepEnums';
+import { DepTitleEnum, MainLibraryEnum } from './enums/DepEnums';
 import { makeFile } from './helpers/makeFile';
 import type { File } from './interfaces/File';
 export default function Home() {
@@ -21,7 +21,10 @@ export default function Home() {
     [depSelectMap]
   );
   // TODO: When Main Library is changed, update files
-  const files: File[] = useMemo(() => makeFile(tools[selectedToolIndex], { projectName }), [projectName, selectedToolIndex]);
+  const files: File[] = useMemo(() => {
+    const selectedMainLibrary: MainLibraryEnum = depList[0].deps[depSelectMap[DepTitleEnum.mainLibrary]].name;
+    return makeFile(tools[selectedToolIndex], { projectName, mainLibrary: selectedMainLibrary });
+  }, [depSelectMap, projectName, selectedToolIndex]);
   return (
     <>
       <main className="py-20 px-12 flex flex-col items-center gap-5">
