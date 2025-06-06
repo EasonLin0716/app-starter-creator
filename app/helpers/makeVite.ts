@@ -1,3 +1,5 @@
+import { depList } from '../constants/constants';
+import { DepTitleEnum, MainLibraryEnum } from '../enums/DepEnums';
 import { Dep } from '../interfaces/Dep';
 import { File } from '../interfaces/File';
 import { makeJSONDepAndDevDeps } from '../utils/utils';
@@ -22,6 +24,14 @@ export const VITE_DEP: Dep = {
   name: 'vite',
   version: '^7',
   isDevDep: true
+};
+
+export const makeMainLibraryDependencies = (mainLibrary: MainLibraryEnum) => {
+  const mainLibraries = depList.find((d) => d.title === DepTitleEnum.mainLibrary);
+  if (!mainLibraries) throw new Error('mainLibraries not found.');
+  if (mainLibrary === MainLibraryEnum.react) {
+    return mainLibraries.deps.find((m) => m.name === MainLibraryEnum.react)?.dependencies ?? [];
+  } else return [];
 };
 
 const makeMainCSS = (): File => ({

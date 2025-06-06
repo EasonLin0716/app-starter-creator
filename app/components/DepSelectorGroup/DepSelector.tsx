@@ -1,5 +1,6 @@
 'use client';
-import { DepSelect, DepSelectMapType, DepTitleEnum } from '@/app/interfaces/Dep';
+import { DepTitleEnum } from '@/app/enums/DepEnums';
+import { DepSelect, DepSelectMapType } from '@/app/interfaces/Dep';
 import { useMemo, useState } from 'react';
 interface DepSelectorProps extends DepSelect {
   depSelectMap: DepSelectMapType;

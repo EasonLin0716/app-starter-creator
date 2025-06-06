@@ -1,22 +1,20 @@
+import { DepTitleEnum } from '../enums/DepEnums';
+
 export interface Dep {
   name: string;
   version: string;
   isDevDep?: boolean;
 }
 
-export enum DepTitleEnum {
-  mainLibrary = 'Main library'
-}
-
 export interface Dep {
   name: string;
   version: string;
+  isDevDep?: boolean;
 }
 
 export type Library = {
   name: string;
   dependencies?: Dep[];
-  devDependencies?: Dep[];
 };
 
 export interface DepSelect {

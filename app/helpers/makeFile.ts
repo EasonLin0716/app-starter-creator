@@ -1,7 +1,8 @@
+import { MainLibraryEnum } from '../enums/DepEnums';
 import { File } from '../interfaces/File';
 import { Tool } from '../interfaces/Tool';
 import { makeRspack } from './makeRspack';
-import { makeVite, VITE_DEP } from './makeVite';
+import { makeMainLibraryDependencies, makeVite, VITE_DEP } from './makeVite';
 import { makeWebpack } from './makeWebpack';
 import { sortFile } from './sortFile';
 
@@ -48,7 +49,7 @@ export const makeFile = (tool: Tool, { projectName = 'app_starter' }: { projectN
     },
     Vite: (projectName: string) => {
       const vite = makeVite();
-      return [makeGitIgnore(), vite.css(), vite.entry(), vite.html(), vite.json({ projectName, depList: [VITE_DEP] }), vite.readme({ projectName }), vite.util()];
+      return [makeGitIgnore(), vite.css(), vite.entry(), vite.html(), vite.json({ projectName, depList: [VITE_DEP].concat(makeMainLibraryDependencies(MainLibraryEnum.react)) }), vite.readme({ projectName }), vite.util()];
     },
     Rspack: (projectName: string) => {
       const rspack = makeRspack();

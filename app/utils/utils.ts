@@ -8,7 +8,7 @@ export const makeJSONDepAndDevDeps = (depList: Dep[]): string => {
   const depString = normalDepList.length
     ? `"dependencies": {
     ${normalDepList.map((d) => {
-      return getJSONKeyValueStringByDep(d) + ',';
+      return getJSONKeyValueStringByDep(d);
     })}
   },`
     : '';
@@ -16,7 +16,7 @@ export const makeJSONDepAndDevDeps = (depList: Dep[]): string => {
   const devDepString = devDepList.length
     ? `"devDependencies": {
     ${devDepList.map((d) => {
-      return getJSONKeyValueStringByDep(d) + ',';
+      return getJSONKeyValueStringByDep(d);
     })}
   }`
     : '';

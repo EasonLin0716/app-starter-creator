@@ -1,5 +1,5 @@
-import { DepSelect, DepTitleEnum } from '../interfaces/Dep';
-
+import { DepTitleEnum } from '../enums/DepEnums';
+import { DepSelect } from '../interfaces/Dep';
 export const prismLanguageMap = {
   babelrc: 'javascript',
   css: 'css',
@@ -37,20 +37,21 @@ export const depList: DepSelect[] = [
           {
             name: 'react-dom',
             version: '^19'
-          }
-        ],
-        devDependencies: [
+          },
           {
             name: '@types/react',
-            version: '^19'
+            version: '^19',
+            isDevDep: true
           },
           {
             name: '@types/react-dom',
-            version: '^19'
+            version: '^19',
+            isDevDep: true
           },
           {
             name: '@vitejs/plugin-react',
-            version: '^4'
+            version: '^4',
+            isDevDep: true
           }
         ]
       },

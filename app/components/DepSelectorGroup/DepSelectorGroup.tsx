@@ -1,4 +1,5 @@
-import { DepSelect, DepSelectMapType, DepTitleEnum } from '@/app/interfaces/Dep';
+import { DepTitleEnum } from '@/app/enums/DepEnums';
+import { DepSelect, DepSelectMapType } from '@/app/interfaces/Dep';
 import DepSelector from './DepSelector';
 interface DepSelectorGroupProps {
   depList: DepSelect[];

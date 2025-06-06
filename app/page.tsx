@@ -5,8 +5,8 @@ import Downloader from './components/Downloader/Downloader';
 import FileBrowser from './components/FileBrowser/FileBrowser';
 import ToolSelector from './components/ToolSelector/ToolSelector';
 import { depList, initialDepSelectMap, tools } from './constants/constants';
+import { DepTitleEnum } from './enums/DepEnums';
 import { makeFile } from './helpers/makeFile';
-import { DepTitleEnum } from './interfaces/Dep';
 import type { File } from './interfaces/File';
 export default function Home() {
   const [projectName, setProjectName] = useState('app_starter_project');
