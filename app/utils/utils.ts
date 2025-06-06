@@ -7,19 +7,23 @@ export const makeJSONDepAndDevDeps = (depList: Dep[]): string => {
   const devDepList = depList.filter((d) => d.isDevDep);
   const depString = normalDepList.length
     ? `"dependencies": {
-    ${normalDepList.map((d) => {
-      return getJSONKeyValueStringByDep(d);
-    })}
-  },`
+    ${normalDepList
+      .map((d) => {
+        return getJSONKeyValueStringByDep(d);
+      })
+      .join(',\n    ')}
+  },\n`
     : '';
 
   const devDepString = devDepList.length
     ? `"devDependencies": {
-    ${devDepList.map((d) => {
-      return getJSONKeyValueStringByDep(d);
-    })}
+    ${devDepList
+      .map((d) => {
+        return getJSONKeyValueStringByDep(d);
+      })
+      .join(',\n    ')}
   }`
     : '';
 
-  return depString + devDepString;
+  return depString + '  ' + devDepString;
 };
