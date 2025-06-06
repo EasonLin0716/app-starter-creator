@@ -49,7 +49,16 @@ export const makeFile = (tool: Tool, { projectName = 'app_starter', mainLibrary 
     },
     Vite: (projectName: string) => {
       const vite = makeVite();
-      return [makeGitIgnore(), vite.css(), ...vite.entry({ mainLibrary }), vite.html(), vite.json({ projectName, depList: [VITE_DEP].concat(makeMainLibraryDependencies(MainLibraryEnum.react)) }), vite.readme({ projectName }), vite.util()];
+      return [
+        makeGitIgnore(),
+        ...vite.css({ mainLibrary }),
+        ...vite.entry({ mainLibrary }),
+        vite.html({ mainLibrary }),
+        vite.json({ projectName, depList: [VITE_DEP].concat(makeMainLibraryDependencies(MainLibraryEnum.react)) }),
+        vite.readme({ projectName }),
+        vite.util(),
+        ...vite.config({ mainLibrary })
+      ];
     },
     Rspack: (projectName: string) => {
       const rspack = makeRspack();

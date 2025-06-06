@@ -3,28 +3,49 @@ import { DepTitleEnum, MainLibraryEnum } from '../enums/DepEnums';
 import { Dep } from '../interfaces/Dep';
 import { File } from '../interfaces/File';
 import { makeJSONDepAndDevDeps } from '../utils/utils';
-import { getReactJSXFile, getReactMainFile } from './getStarterFile';
+import { getReactAppCSS, getReactAppJsx, getReactIndexCSS, getReactMainJsx } from './getStarterFile';
 
 export const makeVite = (): {
-  html: () => File;
+  html: ({ entryID, mainLibrary }: { entryID?: string; mainLibrary: MainLibraryEnum }) => File;
   json: ({ projectName, depList }: { projectName: string; depList: Dep[] }) => File;
-  css: () => File;
+  css: ({ mainLibrary }: { mainLibrary: MainLibraryEnum }) => File[];
   entry: ({ mainLibrary }: { mainLibrary: MainLibraryEnum }) => File[];
   util: () => File;
   readme: ({ projectName }: { projectName: string }) => File;
+  config: ({ mainLibrary }: { mainLibrary: MainLibraryEnum }) => File[];
 } => ({
   html: makeHTML,
   json: makeJSON,
   css: makeMainCSS,
   entry: makeMainJS,
   util: utilFuncJS,
-  readme: makeREADME
+  readme: makeREADME,
+  config: makeConfig
 });
 
 export const VITE_DEP: Dep = {
   name: 'vite',
-  version: '^7',
+  version: '^6',
   isDevDep: true
+};
+
+export const makeConfig = ({ mainLibrary }: { mainLibrary: MainLibraryEnum }): File[] => {
+  if (mainLibrary === MainLibraryEnum.react) {
+    return [
+      {
+        name: 'vite.config.js',
+        code: `import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react()],
+})`,
+        type: 'js'
+      }
+    ];
+  }
+  return [];
 };
 
 export const makeMainLibraryDependencies = (mainLibrary: MainLibraryEnum) => {
@@ -35,9 +56,12 @@ export const makeMainLibraryDependencies = (mainLibrary: MainLibraryEnum) => {
   } else return [];
 };
 
-const makeMainCSS = (): File => ({
-  name: 'src/style.css',
-  code: `:root {
+const makeMainCSS = ({ mainLibrary }: { mainLibrary: MainLibraryEnum }): File[] => {
+  if (mainLibrary === MainLibraryEnum.noLibrary) {
+    return [
+      {
+        name: 'src/style.css',
+        code: `:root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -134,8 +158,15 @@ button:focus-visible {
   }
 }
 `,
-  type: 'css'
-});
+        type: 'css'
+      }
+    ];
+  }
+  if (mainLibrary === MainLibraryEnum.react) {
+    return [getReactIndexCSS(), getReactAppCSS()];
+  }
+  return [];
+};
 
 const utilFuncJS = (): File => ({
   name: 'src/counter.js',
@@ -178,12 +209,12 @@ setupCounter(document.querySelector('#counter'))
       }
     ];
   if (mainLibrary === MainLibraryEnum.react) {
-    return [getReactJSXFile(), getReactMainFile()];
+    return [getReactAppJsx(), getReactMainJsx()];
   }
   return [];
 };
 
-const makeHTML = (entryID = 'app'): File => ({
+const makeHTML = ({ entryID = 'app', mainLibrary }: { entryID?: string; mainLibrary: MainLibraryEnum }): File => ({
   name: 'index.html',
   code: `<!doctype html>
 <html lang="en">
@@ -195,7 +226,7 @@ const makeHTML = (entryID = 'app'): File => ({
   </head>
   <body>
     <div id="${entryID}"></div>
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/main.js${mainLibrary === MainLibraryEnum.react ? 'x' : ''}"></script>
   </body>
 </html>
 `,
