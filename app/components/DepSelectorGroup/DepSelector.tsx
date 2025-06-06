@@ -1,7 +1,7 @@
 'use client';
-import { Dep, DepSelectMapType, DepTitleEnum } from '@/app/interfaces/Dep';
+import { DepSelect, DepSelectMapType, DepTitleEnum } from '@/app/interfaces/Dep';
 import { useMemo, useState } from 'react';
-interface DepSelectorProps extends Dep {
+interface DepSelectorProps extends DepSelect {
   depSelectMap: DepSelectMapType;
   onSetDepSelectMapAction: (dep: DepTitleEnum, newSelected: number) => void;
 }
@@ -19,7 +19,7 @@ export default function DepSelector({ title, deps, depSelectMap, onSetDepSelectM
         {close ? '+' : '-'} {title}
       </button>
       {deps.map((d, index) => (
-        <label key={d} className="flex gap-1">
+        <label key={d.name} className="flex gap-1">
           <input
             type="radio"
             checked={depSelectMap[title] === index}
@@ -28,7 +28,7 @@ export default function DepSelector({ title, deps, depSelectMap, onSetDepSelectM
               onSetDepSelectMapAction(title, index);
             }}
           />
-          <span>{d}</span>
+          <span>{d.name}</span>
         </label>
       ))}
     </div>

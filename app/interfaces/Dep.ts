@@ -3,8 +3,19 @@ export enum DepTitleEnum {
 }
 
 export interface Dep {
+  name: string;
+  version: string;
+}
+
+export type Library = {
+  name: string;
+  dependencies?: Dep[];
+  devDependencies?: Dep[];
+};
+
+export interface DepSelect {
   title: DepTitleEnum;
-  deps: string[];
+  deps: Library[];
 }
 
 export type DepSelectMapType = Record<DepTitleEnum, number>;

@@ -1,7 +1,7 @@
-import { Dep, DepSelectMapType, DepTitleEnum } from '@/app/interfaces/Dep';
+import { DepSelect, DepSelectMapType, DepTitleEnum } from '@/app/interfaces/Dep';
 import DepSelector from './DepSelector';
 interface DepSelectorGroupProps {
-  depList: Dep[];
+  depList: DepSelect[];
   depSelectMap: DepSelectMapType;
   onSetDepSelectMapAction: (dep: DepTitleEnum, newSelected: number) => void;
 }
