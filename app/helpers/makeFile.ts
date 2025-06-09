@@ -56,7 +56,7 @@ export const makeFile = (tool: Tool, { projectName = 'app_starter', mainLibrary 
         vite.html({ mainLibrary }),
         vite.json({ projectName, depList: [VITE_DEP].concat(makeMainLibraryDependencies(MainLibraryEnum.react)) }),
         vite.readme({ projectName }),
-        vite.util(),
+        ...vite.util({ mainLibrary }),
         ...vite.config({ mainLibrary })
       ];
     },

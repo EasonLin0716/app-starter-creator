@@ -10,7 +10,7 @@ export const makeVite = (): {
   json: ({ projectName, depList }: { projectName: string; depList: Dep[] }) => File;
   css: ({ mainLibrary }: { mainLibrary: MainLibraryEnum }) => File[];
   entry: ({ mainLibrary }: { mainLibrary: MainLibraryEnum }) => File[];
-  util: () => File;
+  util: ({ mainLibrary }: { mainLibrary: MainLibraryEnum }) => File[];
   readme: ({ projectName }: { projectName: string }) => File;
   config: ({ mainLibrary }: { mainLibrary: MainLibraryEnum }) => File[];
 } => ({
@@ -168,9 +168,12 @@ button:focus-visible {
   return [];
 };
 
-const utilFuncJS = (): File => ({
-  name: 'src/counter.js',
-  code: `export function setupCounter(element) {
+const utilFuncJS = ({ mainLibrary }: { mainLibrary: MainLibraryEnum }): File[] => {
+  if (mainLibrary === MainLibraryEnum.noLibrary)
+    return [
+      {
+        name: 'src/counter.js',
+        code: `export function setupCounter(element) {
   let counter = 0
   const setCounter = (count) => {
     counter = count
@@ -180,8 +183,11 @@ const utilFuncJS = (): File => ({
   setCounter(0)
 }
 `,
-  type: 'js'
-});
+        type: 'js'
+      }
+    ];
+  return [];
+};
 
 const makeMainJS = ({ mainLibrary }: { mainLibrary: MainLibraryEnum }): File[] => {
   if (mainLibrary === MainLibraryEnum.noLibrary)
