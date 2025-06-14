@@ -23,7 +23,7 @@ export default function Home() {
   // TODO: When Main Library is changed, update files
   const files: File[] = useMemo(() => {
     const selectedMainLibrary: MainLibraryEnum = depList[0].deps[depSelectMap[DepTitleEnum.mainLibrary]].name;
-    return makeFile(tools[selectedToolIndex], { projectName, mainLibrary: selectedMainLibrary });
+    return makeFile(tools[selectedToolIndex], { projectName, mainLibrary: selectedMainLibrary, entryID: 'app' });
   }, [depSelectMap, projectName, selectedToolIndex]);
   return (
     <>

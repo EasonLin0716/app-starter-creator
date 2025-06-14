@@ -8,7 +8,7 @@ import { getReactAppCSS, getReactAppJsx, getReactIndexCSS, getReactMainJsx } fro
 export const makeVite = (): {
   html: ({ entryID, mainLibrary }: { entryID?: string; mainLibrary: MainLibraryEnum }) => File;
   json: ({ projectName, depList }: { projectName: string; depList: Dep[] }) => File;
-  css: ({ mainLibrary }: { mainLibrary: MainLibraryEnum }) => File[];
+  css: ({ mainLibrary, entryID }: { mainLibrary: MainLibraryEnum; entryID: string }) => File[];
   entry: ({ mainLibrary }: { mainLibrary: MainLibraryEnum }) => File[];
   util: ({ mainLibrary }: { mainLibrary: MainLibraryEnum }) => File[];
   readme: ({ projectName }: { projectName: string }) => File;
@@ -56,7 +56,7 @@ export const makeMainLibraryDependencies = (mainLibrary: MainLibraryEnum) => {
   } else return [];
 };
 
-const makeMainCSS = ({ mainLibrary }: { mainLibrary: MainLibraryEnum }): File[] => {
+const makeMainCSS = ({ mainLibrary, entryID }: { mainLibrary: MainLibraryEnum; entryID: string }): File[] => {
   if (mainLibrary === MainLibraryEnum.noLibrary) {
     return [
       {
@@ -163,7 +163,7 @@ button:focus-visible {
     ];
   }
   if (mainLibrary === MainLibraryEnum.react) {
-    return [getReactIndexCSS(), getReactAppCSS()];
+    return [getReactIndexCSS(), getReactAppCSS(entryID)];
   }
   return [];
 };
