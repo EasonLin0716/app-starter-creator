@@ -3,7 +3,7 @@ import { DepTitleEnum, MainLibraryEnum } from '../enums/DepEnums';
 import { Dep } from '../interfaces/Dep';
 import { File } from '../interfaces/File';
 import { makeJSONDepAndDevDeps } from '../utils/utils';
-import { getBaseCSS, getReactAppCSS, getReactAppJsx, getReactMainJsx } from './getStarterFile';
+import { getBaseCSS, getReactAppCSS, getReactAppJsx, getReactMainJsx, makeVueAppComponent, makeVueHelloWorldComponent, makeVueMainJs } from './getStarterFile';
 
 export const makeVite = (): {
   html: ({ entryID, mainLibrary }: { entryID?: string; mainLibrary: MainLibraryEnum }) => File;
@@ -30,16 +30,17 @@ export const VITE_DEP: Dep = {
 };
 
 export const makeConfig = ({ mainLibrary }: { mainLibrary: MainLibraryEnum }): File[] => {
-  if (mainLibrary === MainLibraryEnum.react) {
+  if (mainLibrary !== MainLibraryEnum.noLibrary) {
+    const libInLowerCase = mainLibrary.toLowerCase();
     return [
       {
         name: 'vite.config.js',
         code: `import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import ${libInLowerCase} from '@vitejs/plugin-${libInLowerCase}'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [${libInLowerCase}()],
 })`,
         type: 'js'
       }
@@ -51,9 +52,7 @@ export default defineConfig({
 export const makeMainLibraryDependencies = (mainLibrary: MainLibraryEnum) => {
   const mainLibraries = depList.find((d) => d.title === DepTitleEnum.mainLibrary);
   if (!mainLibraries) throw new Error('mainLibraries not found.');
-  if (mainLibrary === MainLibraryEnum.react) {
-    return mainLibraries.deps.find((m) => m.name === MainLibraryEnum.react)?.dependencies ?? [];
-  } else return [];
+  return mainLibraries.deps.find((m) => m.name === mainLibrary)?.dependencies ?? [];
 };
 
 const makeMainCSS = ({ mainLibrary, entryID }: { mainLibrary: MainLibraryEnum; entryID: string }): File[] => {
@@ -62,6 +61,9 @@ const makeMainCSS = ({ mainLibrary, entryID }: { mainLibrary: MainLibraryEnum; e
   }
   if (mainLibrary === MainLibraryEnum.react) {
     return [getBaseCSS('src/index.css'), getReactAppCSS(entryID)];
+  }
+  if (mainLibrary === MainLibraryEnum.vue) {
+    return [getBaseCSS()];
   }
   return [];
 };
@@ -114,6 +116,9 @@ setupCounter(document.querySelector('#counter'))
     ];
   if (mainLibrary === MainLibraryEnum.react) {
     return [getReactAppJsx(), getReactMainJsx()];
+  }
+  if (mainLibrary === MainLibraryEnum.vue) {
+    return [makeVueMainJs(), makeVueAppComponent(), makeVueHelloWorldComponent()];
   }
   return [];
 };

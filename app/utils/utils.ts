@@ -25,5 +25,5 @@ export const makeJSONDepAndDevDeps = (depList: Dep[]): string => {
   }`
     : '';
 
-  return depString + '  ' + devDepString;
+  return depString + (depString ? '  ' + devDepString : devDepString);
 };

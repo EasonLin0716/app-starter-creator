@@ -56,7 +56,18 @@ export const depList: DepSelect[] = [
         ]
       },
       {
-        name: MainLibraryEnum.vue
+        name: MainLibraryEnum.vue,
+        dependencies: [
+          {
+            name: 'vue',
+            version: '^3'
+          },
+          {
+            name: '@vitejs/plugin-vue',
+            version: '^5',
+            isDevDep: true
+          }
+        ]
       },
       {
         name: MainLibraryEnum.svelte
