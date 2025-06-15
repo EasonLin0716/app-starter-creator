@@ -1,7 +1,7 @@
 import { File } from '../interfaces/File';
-export const getReactIndexCSS = (): File => {
+export const getBaseCSS = (name = 'src/style.css'): File => {
   return {
-    name: 'src/index.css',
+    name,
     code: `:root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -15,15 +15,6 @@ export const getReactIndexCSS = (): File => {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
 }
 
 body {
@@ -62,9 +53,6 @@ button:focus-visible {
   :root {
     color: #213547;
     background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
   }
   button {
     background-color: #f9f9f9;
