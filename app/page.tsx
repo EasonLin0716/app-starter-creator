@@ -20,7 +20,6 @@ export default function Home() {
     },
     [depSelectMap]
   );
-  // TODO: When Main Library is changed, update files
   const files: File[] = useMemo(() => {
     const selectedMainLibrary: MainLibraryEnum = depList[0].deps[depSelectMap[DepTitleEnum.mainLibrary]].name;
     return makeFile(tools[selectedToolIndex], { projectName, mainLibrary: selectedMainLibrary, entryID: DEFAULT_ENTRY_ID });
@@ -36,7 +35,7 @@ export default function Home() {
             <DepSelectorGroup depList={depList} depSelectMap={depSelectMap} onSetDepSelectMapAction={onSetDepSelectMap} />
             <Downloader files={files} projectName={projectName} setProjectName={setProjectName} />
           </div>
-          <FileBrowser files={files} />
+          <FileBrowser files={files} depSelectMap={depSelectMap} />
         </div>
       </main>
     </>
