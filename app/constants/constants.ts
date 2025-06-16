@@ -1,5 +1,8 @@
 import { DepTitleEnum, MainLibraryEnum } from '../enums/DepEnums';
 import { DepSelect } from '../interfaces/Dep';
+
+export const DEFAULT_ENTRY_ID = 'app';
+export const DEFAULT_PROJECT_NAME = 'app_starter_project';
 export const prismLanguageMap = {
   babelrc: 'javascript',
   css: 'css',
@@ -70,7 +73,19 @@ export const depList: DepSelect[] = [
         ]
       },
       {
-        name: MainLibraryEnum.svelte
+        name: MainLibraryEnum.svelte,
+        dependencies: [
+          {
+            name: '@sveltejs/vite-plugin-svelte',
+            version: '^5',
+            isDevDep: true
+          },
+          {
+            name: 'svelte',
+            version: '^5',
+            isDevDep: true
+          }
+        ]
       }
     ]
   }

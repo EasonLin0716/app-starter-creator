@@ -4,7 +4,7 @@ import DepSelectorGroup from './components/DepSelectorGroup/DepSelectorGroup';
 import Downloader from './components/Downloader/Downloader';
 import FileBrowser from './components/FileBrowser/FileBrowser';
 import ToolSelector from './components/ToolSelector/ToolSelector';
-import { depList, initialDepSelectMap, tools } from './constants/constants';
+import { DEFAULT_ENTRY_ID, depList, initialDepSelectMap, tools } from './constants/constants';
 import { DepTitleEnum, MainLibraryEnum } from './enums/DepEnums';
 import { makeFile } from './helpers/makeFile';
 import type { File } from './interfaces/File';
@@ -23,7 +23,7 @@ export default function Home() {
   // TODO: When Main Library is changed, update files
   const files: File[] = useMemo(() => {
     const selectedMainLibrary: MainLibraryEnum = depList[0].deps[depSelectMap[DepTitleEnum.mainLibrary]].name;
-    return makeFile(tools[selectedToolIndex], { projectName, mainLibrary: selectedMainLibrary, entryID: 'app' });
+    return makeFile(tools[selectedToolIndex], { projectName, mainLibrary: selectedMainLibrary, entryID: DEFAULT_ENTRY_ID });
   }, [depSelectMap, projectName, selectedToolIndex]);
   return (
     <>

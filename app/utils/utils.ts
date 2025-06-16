@@ -8,6 +8,7 @@ export const makeJSONDepAndDevDeps = (depList: Dep[]): string => {
   const depString = normalDepList.length
     ? `"dependencies": {
     ${normalDepList
+      .sort((a, b) => a.name.localeCompare(b.name))
       .map((d) => {
         return getJSONKeyValueStringByDep(d);
       })
@@ -18,6 +19,7 @@ export const makeJSONDepAndDevDeps = (depList: Dep[]): string => {
   const devDepString = devDepList.length
     ? `"devDependencies": {
     ${devDepList
+      .sort((a, b) => a.name.localeCompare(b.name))
       .map((d) => {
         return getJSONKeyValueStringByDep(d);
       })
