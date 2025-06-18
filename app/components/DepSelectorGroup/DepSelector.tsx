@@ -8,7 +8,7 @@ interface DepSelectorProps extends DepSelect {
 }
 
 export default function DepSelector({ title, deps, depSelectMap, onSetDepSelectMapAction }: DepSelectorProps) {
-  const [close, setClose] = useState(true);
+  const [close, setClose] = useState(title !== DepTitleEnum.mainLibrary);
   const getWrapperClassName = useMemo(() => {
     const base = ['inline-flex', 'flex-col', 'overflow-hidden'];
     if (close) base.push('h-24px');
