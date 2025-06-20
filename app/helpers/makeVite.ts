@@ -3,7 +3,21 @@ import { DepTitleEnum, MainLibraryEnum } from '../enums/DepEnums';
 import { Dep } from '../interfaces/Dep';
 import { File } from '../interfaces/File';
 import { makeJSONDepAndDevDeps } from '../utils/utils';
-import { getBaseCSS, getReactAppCSS, getReactAppJsx, getReactMainJsx, makeSvelteAppCSS, makeSvelteCounterComponent, makeSvelteMainComponent, makeSvelteMainJs, makeVueAppComponent, makeVueHelloWorldComponent, makeVueMainJs } from './getStarterFile';
+import { makeNoLibraryJS } from './mainLibrary/makeNoLibrary';
+import {
+  getBaseCSS,
+  makeReactAppCSS,
+  makeReactAppJsx,
+  makeReactMainJsx,
+  makeSvelteAppCSS,
+  makeSvelteConfigJSON,
+  makeSvelteCounterComponent,
+  makeSvelteMainComponent,
+  makeSvelteMainJs,
+  makeVueAppComponent,
+  makeVueHelloWorldComponent,
+  makeVueMainJs
+} from './makeStarterFile';
 
 export const makeVite = (): {
   html: ({ entryID, mainLibrary }: { entryID?: string; mainLibrary: MainLibraryEnum }) => File;
@@ -96,7 +110,7 @@ const makeMainCSS = ({ mainLibrary, entryID }: { mainLibrary: MainLibraryEnum; e
     return [getBaseCSS()];
   }
   if (mainLibrary === MainLibraryEnum.react) {
-    return [getBaseCSS('src/index.css'), getReactAppCSS(entryID)];
+    return [getBaseCSS('src/index.css'), makeReactAppCSS(entryID)];
   }
   if (mainLibrary === MainLibraryEnum.vue) {
     return [getBaseCSS()];
@@ -129,32 +143,9 @@ const utilFuncJS = ({ mainLibrary }: { mainLibrary: MainLibraryEnum }): File[] =
 };
 
 const makeMainJS = ({ mainLibrary, entryID = 'app' }: { mainLibrary: MainLibraryEnum; entryID: string }): File[] => {
-  if (mainLibrary === MainLibraryEnum.noLibrary)
-    return [
-      {
-        name: 'src/main.js',
-        code: `import './style.css'
-import { setupCounter } from './counter.js'
-
-document.querySelector('#${entryID}').innerHTML = \`
-  <div>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-\`
-
-setupCounter(document.querySelector('#counter'))
-`,
-        type: 'js'
-      }
-    ];
+  if (mainLibrary === MainLibraryEnum.noLibrary) return [makeNoLibraryJS({ entryID })];
   if (mainLibrary === MainLibraryEnum.react) {
-    return [getReactAppJsx(), getReactMainJsx(entryID)];
+    return [makeReactAppJsx(), makeReactMainJsx(entryID)];
   }
   if (mainLibrary === MainLibraryEnum.vue) {
     return [makeVueMainJs(entryID), makeVueAppComponent(), makeVueHelloWorldComponent()];
@@ -204,42 +195,7 @@ const makeJSON = ({ projectName, depList, mainLibrary }: { projectName: string; 
     }
   ];
   if (mainLibrary === MainLibraryEnum.svelte) {
-    jsonFiles.push({
-      name: 'jsconfig.json',
-      code: `{
-  "compilerOptions": {
-    "moduleResolution": "bundler",
-    "target": "ESNext",
-    "module": "ESNext",
-    /**
-     * svelte-preprocess cannot figure out whether you have
-     * a value or a type, so tell TypeScript to enforce using
-     * \`import type\` instead of \`import\` for Types.
-     */
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
-    "resolveJsonModule": true,
-    /**
-     * To have warnings / errors of the Svelte compiler at the
-     * correct position, enable source maps by default.
-     */
-    "sourceMap": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    /**
-     * Typecheck JS in \`.svelte\` and \`.js\` files by default.
-     * Disable this if you'd like to use dynamic types.
-     */
-    "checkJs": true
-  },
-  /**
-   * Use global.d.ts instead of compilerOptions.types
-   * to avoid limiting type declarations.
-   */
-  "include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.svelte"]
-}`,
-      type: 'json'
-    });
+    jsonFiles.push(makeSvelteConfigJSON());
     return jsonFiles;
   }
   return jsonFiles;

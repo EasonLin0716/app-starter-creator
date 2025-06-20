@@ -1,7 +1,7 @@
 import type { File } from '../interfaces/File';
-export { getReactAppCSS, getReactAppJsx, getReactMainJsx } from './makeReact';
-export { makeSvelteAppCSS, makeSvelteCounterComponent, makeSvelteMainComponent, makeSvelteMainJs } from './makeSvelte';
-export { makeVueAppComponent, makeVueHelloWorldComponent, makeVueMainJs } from './makeVue';
+export { makeReactAppCSS, makeReactAppJsx, makeReactMainJsx } from './mainLibrary/makeReact';
+export { makeSvelteAppCSS, makeSvelteConfigJSON, makeSvelteCounterComponent, makeSvelteMainComponent, makeSvelteMainJs } from './mainLibrary/makeSvelte';
+export { makeVueAppComponent, makeVueHelloWorldComponent, makeVueMainJs } from './mainLibrary/makeVue';
 export const getBaseCSS = (name = 'src/style.css'): File => {
   return {
     name,

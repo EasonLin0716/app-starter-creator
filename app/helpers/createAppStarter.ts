@@ -2,12 +2,12 @@ import { MainLibraryEnum } from '../enums/DepEnums';
 import { File } from '../interfaces/File';
 import { Tool } from '../interfaces/Tool';
 import { sortFile } from '../utils/sortFile';
-import { makeGitIgnore } from './getStarterFile';
 import { makeRspack } from './makeRspack';
+import { makeGitIgnore } from './makeStarterFile';
 import { makeMainLibraryDependencies, makeVite, VITE_DEP } from './makeVite';
 import { makeWebpack } from './makeWebpack';
 
-export const makeFile = (tool: Tool, { projectName, mainLibrary, entryID }: { projectName: string; mainLibrary: MainLibraryEnum; entryID: string }) => {
+export const createAppStarter = (tool: Tool, { projectName, mainLibrary, entryID }: { projectName: string; mainLibrary: MainLibraryEnum; entryID: string }) => {
   const fileFunctionMap: Record<Tool, (projectName: string, entryID: string) => File[]> = {
     Webpack: (projectName: string) => {
       const webpack = makeWebpack();

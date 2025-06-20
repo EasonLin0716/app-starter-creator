@@ -1,5 +1,5 @@
-import type { File } from '../interfaces/File';
-export const getReactAppJsx = (): File => {
+import type { File } from '../../interfaces/File';
+export const makeReactAppJsx = (): File => {
   return {
     name: 'src/App.jsx',
     code: `import { useState } from 'react'
@@ -29,7 +29,7 @@ export default App
   };
 };
 
-export const getReactAppCSS = (entryID = 'app'): File => {
+export const makeReactAppCSS = (entryID = 'app'): File => {
   return {
     name: 'src/App.css',
     code: `#${entryID} {
@@ -47,7 +47,7 @@ export const getReactAppCSS = (entryID = 'app'): File => {
   };
 };
 
-export const getReactMainJsx = (entryID = 'app'): File => {
+export const makeReactMainJsx = (entryID = 'app'): File => {
   return {
     name: 'src/main.jsx',
     code: `import { StrictMode } from 'react'

@@ -1,4 +1,4 @@
-import type { File } from '../interfaces/File';
+import type { File } from '../../interfaces/File';
 
 export const makeVueAppComponent = (): File => ({
   name: 'src/App.vue',

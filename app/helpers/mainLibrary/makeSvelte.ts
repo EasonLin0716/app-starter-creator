@@ -1,4 +1,4 @@
-import type { File } from '../interfaces/File';
+import type { File } from '../../interfaces/File';
 export const makeSvelteMainComponent = (): File => ({
   name: 'src/App.svelte',
   code: `<script>
@@ -74,4 +74,41 @@ const app = mount(App, {
 export default app
 `,
   type: 'js'
+});
+
+export const makeSvelteConfigJSON = (): File => ({
+  name: 'jsconfig.json',
+  code: `{
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "target": "ESNext",
+    "module": "ESNext",
+    /**
+     * svelte-preprocess cannot figure out whether you have
+     * a value or a type, so tell TypeScript to enforce using
+     * \`import type\` instead of \`import\` for Types.
+     */
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    /**
+     * To have warnings / errors of the Svelte compiler at the
+     * correct position, enable source maps by default.
+     */
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    /**
+     * Typecheck JS in \`.svelte\` and \`.js\` files by default.
+     * Disable this if you'd like to use dynamic types.
+     */
+    "checkJs": true
+  },
+  /**
+   * Use global.d.ts instead of compilerOptions.types
+   * to avoid limiting type declarations.
+   */
+  "include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.svelte"]
+}`,
+  type: 'json'
 });
