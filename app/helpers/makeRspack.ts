@@ -1,5 +1,5 @@
 import { File } from '../interfaces/File';
-import { generateImportStatements } from '../utils/generateCodes';
+import { generateExportStatements, generateImportStatements } from '../utils/generateCodes';
 import { makeGitIgnore, makeREADME } from './makeStarterFile';
 
 export const makeRspack = (): { json: ({ projectName }: { projectName: string }) => File; css: () => File; entry: () => File; config: () => File; default: ({ projectName }: { projectName: string }) => File[] } => ({
@@ -60,7 +60,7 @@ const makeConfig = (): File => ({
   name: 'rsbuild.config.mjs',
   code: `${generateImportStatements([{ name: 'defineConfig', library: '@rsbuild/core' }])}
 
-export default defineConfig({});
+${generateExportStatements([{ name: 'defineConfig({})' }])}
 `,
   type: 'js'
 });

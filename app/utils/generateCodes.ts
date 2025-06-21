@@ -25,3 +25,9 @@ export const generateImportStatements = (imports: Array<{ name: string; as?: str
     })
     .join('\n');
 };
+
+export const generateExportStatements = (exports: Array<{ name: string }>) => {
+  return exports.map(({ name }) => {
+    return `export default ${name};`;
+  });
+};
