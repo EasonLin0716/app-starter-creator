@@ -20,5 +20,8 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode",
         "editor.formatOnSave": true
     },
-    "vue.server.hybridMode": "typeScriptPluginOnly"
+    "vue.server.hybridMode": "typeScriptPluginOnly",
+    "cSpell.words": [
+        "Rspack"
+    ]
 }
