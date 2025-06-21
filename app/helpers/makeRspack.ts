@@ -1,5 +1,5 @@
 import { File } from '../interfaces/File';
-import { generateImportStatements } from '../utils/makeCode';
+import { generateImportStatements } from '../utils/generateCodes';
 import { makeGitIgnore, makeREADME } from './makeStarterFile';
 
 export const makeRspack = (): { json: ({ projectName }: { projectName: string }) => File; css: () => File; entry: () => File; config: () => File; default: ({ projectName }: { projectName: string }) => File[] } => ({

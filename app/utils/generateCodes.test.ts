@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { generateImportStatements } from './makeCode';
+import { generateImportStatements } from './generateCodes';
 
 describe('generateImportStatements', () => {
   it('should return the correct imports', () => {
