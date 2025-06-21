@@ -1,16 +1,17 @@
 import { File } from '../interfaces/File';
+import { makeGitIgnore, makeREADME } from './makeStarterFile';
 export const makeWebpack = (): {
   html: () => File;
   json: ({ projectName }: { projectName: string }) => File;
   config: () => File;
   entry: () => File;
-  readme: ({ projectName }: { projectName: string }) => File;
+  default: ({ projectName }: { projectName: string }) => File[];
 } => ({
   html: makeHTML,
   json: makeJSON,
   config: makeConfig,
   entry: makeIndexJS,
-  readme: makeREADME
+  default: makeDefault
 });
 
 const makeHTML = (): File => ({
@@ -73,40 +74,4 @@ const makeIndexJS = (): File => ({
   type: 'js'
 });
 
-const makeREADME = ({ projectName }: { projectName: string }): File => ({
-  name: 'README.md',
-  code: `# ${projectName}
-
-Frontend app starter
-
-## Building and running on localhost
-
-First install dependencies:
-
-\`\`\`sh
-npm install
-\`\`\`
-
-To create a production build:
-
-\`\`\`sh
-npm run build-prod
-\`\`\`
-
-To create a development build:
-
-\`\`\`sh
-npm run build-dev
-\`\`\`
-
-## Running
-
-\`\`\`sh
-node dist/bundle.js
-\`\`\`
-
-## Credits
-
-`,
-  type: 'md'
-});
+const makeDefault = ({ projectName }: { projectName: string }): File[] => [makeGitIgnore(), makeREADME({ projectName })];

@@ -6,6 +6,8 @@ import { makeJSONDepAndDevDeps } from '../utils/utils';
 import { makeNoLibraryJS } from './mainLibrary/makeNoLibrary';
 import {
   getBaseCSS,
+  makeGitIgnore,
+  makeREADME,
   makeReactAppCSS,
   makeReactAppJsx,
   makeReactMainJsx,
@@ -25,16 +27,16 @@ export const makeVite = (): {
   css: ({ mainLibrary, entryID }: { mainLibrary: MainLibraryEnum; entryID: string }) => File[];
   entry: ({ mainLibrary, entryID }: { mainLibrary: MainLibraryEnum; entryID: string }) => File[];
   util: ({ mainLibrary }: { mainLibrary: MainLibraryEnum }) => File[];
-  readme: ({ projectName }: { projectName: string }) => File;
   config: ({ mainLibrary }: { mainLibrary: MainLibraryEnum }) => File[];
+  default: ({ projectName }: { projectName: string }) => File[];
 } => ({
   html: makeHTML,
   json: makeJSON,
   css: makeMainCSS,
   entry: makeMainJS,
   util: utilFuncJS,
-  readme: makeREADME,
-  config: makeConfig
+  config: makeConfig,
+  default: makeDefault
 });
 
 export const VITE_DEP: Dep = {
@@ -42,6 +44,8 @@ export const VITE_DEP: Dep = {
   version: '^6',
   isDevDep: true
 };
+
+const makeDefault = ({ projectName }: { projectName: string }): File[] => [makeGitIgnore(), makeREADME({ projectName })];
 
 export const makeConfig = ({ mainLibrary }: { mainLibrary: MainLibraryEnum }): File[] => {
   const name = 'vite.config.js';
@@ -200,41 +204,3 @@ const makeJSON = ({ projectName, depList, mainLibrary }: { projectName: string; 
   }
   return jsonFiles;
 };
-
-const makeREADME = ({ projectName }: { projectName: string }): File => ({
-  name: 'README.md',
-  code: `# ${projectName}
-
-Frontend app starter
-
-## Building and running on localhost
-
-First install dependencies:
-
-\`\`\`sh
-npm install
-\`\`\`
-
-To create a production build:
-
-\`\`\`sh
-npm run build
-\`\`\`
-
-To create a development build:
-
-\`\`\`sh
-npm run dev
-\`\`\`
-
-## Running
-
-\`\`\`sh
-node dist/bundle.js
-\`\`\`
-
-## Credits
-
-`,
-  type: 'md'
-});

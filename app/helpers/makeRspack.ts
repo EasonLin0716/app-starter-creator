@@ -1,11 +1,12 @@
 import { File } from '../interfaces/File';
+import { makeGitIgnore, makeREADME } from './makeStarterFile';
 
-export const makeRspack = (): { json: ({ projectName }: { projectName: string }) => File; css: () => File; entry: () => File; config: () => File; readme: ({ projectName }: { projectName: string }) => File } => ({
+export const makeRspack = (): { json: ({ projectName }: { projectName: string }) => File; css: () => File; entry: () => File; config: () => File; default: ({ projectName }: { projectName: string }) => File[] } => ({
   json: makeJSON,
   css: makeMainCSS,
   entry: makeMainJS,
   config: makeConfig,
-  readme: makeREADME
+  default: makeDefault
 });
 
 const makeMainJS = (): File => ({
@@ -83,40 +84,4 @@ const makeJSON = ({ projectName }: { projectName: string }): File => ({
   type: 'json'
 });
 
-const makeREADME = ({ projectName }: { projectName: string }): File => ({
-  name: 'README.md',
-  code: `# ${projectName}
-
-Frontend app starter
-
-## Building and running on localhost
-
-First install dependencies:
-
-\`\`\`sh
-npm install
-\`\`\`
-
-To create a production build:
-
-\`\`\`sh
-npm run build
-\`\`\`
-
-To create a development build:
-
-\`\`\`sh
-npm run dev
-\`\`\`
-
-## Running
-
-\`\`\`sh
-node dist/bundle.js
-\`\`\`
-
-## Credits
-
-`,
-  type: 'md'
-});
+const makeDefault = ({ projectName }: { projectName: string }): File[] => [makeGitIgnore(), makeREADME({ projectName })];
