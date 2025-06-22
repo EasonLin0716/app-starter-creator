@@ -21,7 +21,7 @@ export const prismLanguageMap = {
   vue: 'markup'
 };
 
-export const tools = ['Vite', 'Webpack', 'Rspack'] as const;
+export const tools = ['Vite', 'Rspack', 'Webpack'] as const;
 
 export const toolDescriptions = {
   Vite: '現代化的前端構建工具，提供極快的開發服務器和構建速度',

@@ -2,8 +2,9 @@ import { depList } from '../constants/constants';
 import { DepTitleEnum, MainLibraryEnum } from '../enums/DepEnums';
 import { Dep } from '../interfaces/Dep';
 import { File } from '../interfaces/File';
+import { Tool } from '../interfaces/Tool';
 import { makeJSONDepAndDevDeps } from '../utils/utils';
-import { makeNoLibraryJS } from './mainLibrary/makeNoLibrary';
+import { makeNoLibraryJS, makeNoLibraryUtil } from './mainLibrary/makeNoLibrary';
 import {
   getBaseCSS,
   makeGitIgnore,
@@ -25,7 +26,7 @@ export const makeVite = (): {
   html: ({ entryID, mainLibrary }: { entryID?: string; mainLibrary: MainLibraryEnum }) => File;
   json: ({ projectName, depList, mainLibrary }: { projectName: string; depList: Dep[]; mainLibrary: MainLibraryEnum }) => File[];
   css: ({ mainLibrary, entryID }: { mainLibrary: MainLibraryEnum; entryID: string }) => File[];
-  entry: ({ mainLibrary, entryID }: { mainLibrary: MainLibraryEnum; entryID: string }) => File[];
+  entry: ({ mainLibrary, entryID, tool }: { mainLibrary: MainLibraryEnum; entryID: string; tool: Tool }) => File[];
   util: ({ mainLibrary }: { mainLibrary: MainLibraryEnum }) => File[];
   config: ({ mainLibrary }: { mainLibrary: MainLibraryEnum }) => File[];
   default: ({ projectName }: { projectName: string }) => File[];
@@ -126,28 +127,12 @@ const makeMainCSS = ({ mainLibrary, entryID }: { mainLibrary: MainLibraryEnum; e
 };
 
 const utilFuncJS = ({ mainLibrary }: { mainLibrary: MainLibraryEnum }): File[] => {
-  if (mainLibrary === MainLibraryEnum.noLibrary)
-    return [
-      {
-        name: 'src/counter.js',
-        code: `export function setupCounter(element) {
-  let counter = 0
-  const setCounter = (count) => {
-    counter = count
-    element.innerHTML = \`count is \${counter}\`
-  }
-  element.addEventListener('click', () => setCounter(counter + 1))
-  setCounter(0)
-}
-`,
-        type: 'js'
-      }
-    ];
+  if (mainLibrary === MainLibraryEnum.noLibrary) return [makeNoLibraryUtil()];
   return [];
 };
 
-const makeMainJS = ({ mainLibrary, entryID = 'app' }: { mainLibrary: MainLibraryEnum; entryID: string }): File[] => {
-  if (mainLibrary === MainLibraryEnum.noLibrary) return [makeNoLibraryJS({ entryID })];
+const makeMainJS = ({ mainLibrary, entryID = 'app', tool }: { mainLibrary: MainLibraryEnum; entryID: string; tool: Tool }): File[] => {
+  if (mainLibrary === MainLibraryEnum.noLibrary) return [makeNoLibraryJS({ entryID, tool })];
   if (mainLibrary === MainLibraryEnum.react) {
     return [makeReactAppJsx(), makeReactMainJsx(entryID)];
   }

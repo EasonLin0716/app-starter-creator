@@ -1,60 +1,63 @@
+import { MainLibraryEnum } from '../enums/DepEnums';
 import { File } from '../interfaces/File';
+import { Tool } from '../interfaces/Tool';
 import { generateExportStatements, generateImportStatements } from '../utils/generateCodes';
-import { makeGitIgnore, makeREADME } from './makeStarterFile';
+import { makeNoLibraryJS, makeNoLibraryUtil } from './mainLibrary/makeNoLibrary';
+import { getBaseCSS, makeGitIgnore, makeREADME } from './makeStarterFile';
 
-export const makeRspack = (): { json: ({ projectName }: { projectName: string }) => File; css: () => File; entry: () => File; config: () => File; default: ({ projectName }: { projectName: string }) => File[] } => ({
+export const makeRspack = (): {
+  json: ({ projectName }: { projectName: string }) => File;
+  css: ({ mainLibrary, entryID }: { mainLibrary: MainLibraryEnum; entryID: string }) => File[];
+  entry: ({ mainLibrary, entryID, tool }: { mainLibrary: MainLibraryEnum; entryID: string; tool: Tool }) => File[];
+  util: ({ mainLibrary }: { mainLibrary: MainLibraryEnum }) => File[];
+  config: () => File;
+  default: ({ projectName }: { projectName: string }) => File[];
+  html: ({ entryID, mainLibrary }: { entryID?: string; mainLibrary: MainLibraryEnum }) => File;
+} => ({
   json: makeJSON,
   css: makeMainCSS,
   entry: makeMainJS,
   config: makeConfig,
-  default: makeDefault
+  util: utilFuncJS,
+  default: makeDefault,
+  html: makeHTML
 });
 
-const makeMainJS = (): File => ({
-  name: 'src/index.js',
-  code: `import './index.css';
-
-document.querySelector('#root').innerHTML = \`
-<div class="content">
-  <h1>Vanilla Rsbuild</h1>
-  <p>Start building amazing things with Rsbuild.</p>
-</div>
-\`;
+const makeHTML = ({ entryID = 'app', mainLibrary }: { entryID?: string; mainLibrary: MainLibraryEnum }): File => ({
+  name: 'index.html',
+  code: `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rspack + ${mainLibrary}</title>
+  </head>
+  <body>
+    <div id="${entryID}"></div>
+    <script type="module" src="/src/main.js${mainLibrary === MainLibraryEnum.react ? 'x' : ''}"></script>
+  </body>
+</html>
 `,
-  type: 'js'
+  type: 'html'
 });
 
-const makeMainCSS = (): File => ({
-  name: 'src/index.css',
-  code: `body {
-  margin: 0;
-  color: #fff;
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  background-image: linear-gradient(to bottom, #020917, #101725);
-}
+const utilFuncJS = ({ mainLibrary }: { mainLibrary: MainLibraryEnum }): File[] => {
+  if (mainLibrary === MainLibraryEnum.noLibrary) return [makeNoLibraryUtil()];
+  return [];
+};
 
-.content {
-  display: flex;
-  min-height: 100vh;
-  line-height: 1.1;
-  text-align: center;
-  flex-direction: column;
-  justify-content: center;
-}
+const makeMainJS = ({ mainLibrary, entryID = 'app', tool }: { mainLibrary: MainLibraryEnum; entryID: string; tool: Tool }): File[] => {
+  if (mainLibrary === MainLibraryEnum.noLibrary) return [makeNoLibraryJS({ entryID, tool })];
+  return [];
+};
 
-.content h1 {
-  font-size: 3.6rem;
-  font-weight: 700;
-}
-
-.content p {
-  font-size: 1.2rem;
-  font-weight: 400;
-  opacity: 0.5;
-}
-`,
-  type: 'css'
-});
+const makeMainCSS = ({ mainLibrary }: { mainLibrary: MainLibraryEnum }): File[] => {
+  if (mainLibrary === MainLibraryEnum.noLibrary) {
+    return [getBaseCSS()];
+  }
+  return [];
+};
 
 const makeConfig = (): File => ({
   name: 'rsbuild.config.mjs',
