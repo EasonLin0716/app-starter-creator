@@ -2,9 +2,10 @@ import { depList } from '../constants/constants';
 import { DepTitleEnum, MainLibraryEnum } from '../enums/DepEnums';
 import { Dep } from '../interfaces/Dep';
 import { File } from '../interfaces/File';
+import { MakeHTML } from '../interfaces/Make';
 import { Tool } from '../interfaces/Tool';
 import { makeJSONDepAndDevDeps } from '../utils/utils';
-import { makeNoLibraryJS, makeNoLibraryUtil } from './mainLibrary/makeNoLibrary';
+import { makeHTML, makeNoLibraryJS, makeNoLibraryUtil } from './mainLibrary/makeNoLibrary';
 import {
   getBaseCSS,
   makeGitIgnore,
@@ -23,7 +24,7 @@ import {
 } from './makeStarterFile';
 
 export const makeVite = (): {
-  html: ({ entryID, mainLibrary }: { entryID?: string; mainLibrary: MainLibraryEnum }) => File;
+  html: ({ entryID, mainLibrary, tool }: MakeHTML) => File;
   json: ({ projectName, depList, mainLibrary }: { projectName: string; depList: Dep[]; mainLibrary: MainLibraryEnum }) => File[];
   css: ({ mainLibrary, entryID }: { mainLibrary: MainLibraryEnum; entryID: string }) => File[];
   entry: ({ mainLibrary, entryID, tool }: { mainLibrary: MainLibraryEnum; entryID: string; tool: Tool }) => File[];
@@ -144,25 +145,6 @@ const makeMainJS = ({ mainLibrary, entryID = 'app', tool }: { mainLibrary: MainL
   }
   return [];
 };
-
-const makeHTML = ({ entryID = 'app', mainLibrary }: { entryID?: string; mainLibrary: MainLibraryEnum }): File => ({
-  name: 'index.html',
-  code: `<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + ${mainLibrary}</title>
-  </head>
-  <body>
-    <div id="${entryID}"></div>
-    <script type="module" src="/src/main.js${mainLibrary === MainLibraryEnum.react ? 'x' : ''}"></script>
-  </body>
-</html>
-`,
-  type: 'html'
-});
 
 const makeJSON = ({ projectName, depList, mainLibrary }: { projectName: string; depList: Dep[]; mainLibrary: MainLibraryEnum }): File[] => {
   const jsonFiles: File[] = [

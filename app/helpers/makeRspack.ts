@@ -1,8 +1,9 @@
 import { MainLibraryEnum } from '../enums/DepEnums';
 import { File } from '../interfaces/File';
+import { MakeHTML } from '../interfaces/Make';
 import { Tool } from '../interfaces/Tool';
 import { generateExportStatements, generateImportStatements } from '../utils/generateCodes';
-import { makeNoLibraryJS, makeNoLibraryUtil } from './mainLibrary/makeNoLibrary';
+import { makeHTML, makeNoLibraryJS, makeNoLibraryUtil } from './mainLibrary/makeNoLibrary';
 import { getBaseCSS, makeGitIgnore, makeREADME } from './makeStarterFile';
 
 export const makeRspack = (): {
@@ -12,7 +13,7 @@ export const makeRspack = (): {
   util: ({ mainLibrary }: { mainLibrary: MainLibraryEnum }) => File[];
   config: () => File;
   default: ({ projectName }: { projectName: string }) => File[];
-  html: ({ entryID, mainLibrary }: { entryID?: string; mainLibrary: MainLibraryEnum }) => File;
+  html: ({ entryID, mainLibrary, tool }: MakeHTML) => File;
 } => ({
   json: makeJSON,
   css: makeMainCSS,
@@ -21,25 +22,6 @@ export const makeRspack = (): {
   util: utilFuncJS,
   default: makeDefault,
   html: makeHTML
-});
-
-const makeHTML = ({ entryID = 'app', mainLibrary }: { entryID?: string; mainLibrary: MainLibraryEnum }): File => ({
-  name: 'index.html',
-  code: `<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rspack + ${mainLibrary}</title>
-  </head>
-  <body>
-    <div id="${entryID}"></div>
-    <script type="module" src="/src/main.js${mainLibrary === MainLibraryEnum.react ? 'x' : ''}"></script>
-  </body>
-</html>
-`,
-  type: 'html'
 });
 
 const utilFuncJS = ({ mainLibrary }: { mainLibrary: MainLibraryEnum }): File[] => {

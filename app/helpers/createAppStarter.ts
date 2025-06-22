@@ -21,12 +21,20 @@ export const createAppStarter = (tool: Tool, { projectName, mainLibrary, entryID
         ...vite.json({ projectName, depList: [VITE_DEP].concat(makeMainLibraryDependencies(mainLibrary)), mainLibrary }),
         ...vite.util({ mainLibrary }),
         ...vite.config({ mainLibrary }),
-        vite.html({ mainLibrary })
+        vite.html({ mainLibrary, tool })
       ];
     },
     Rspack: (projectName: string) => {
       const rspack = makeRspack();
-      return [...rspack.default({ projectName }), rspack.config(), ...rspack.css({ mainLibrary, entryID }), ...rspack.entry({ mainLibrary, entryID, tool }), ...rspack.util({ mainLibrary }), rspack.json({ projectName }), rspack.html({ mainLibrary })];
+      return [
+        ...rspack.default({ projectName }),
+        rspack.config(),
+        ...rspack.css({ mainLibrary, entryID }),
+        ...rspack.entry({ mainLibrary, entryID, tool }),
+        ...rspack.util({ mainLibrary }),
+        rspack.json({ projectName }),
+        rspack.html({ mainLibrary, tool })
+      ];
     }
   };
 

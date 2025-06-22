@@ -1,3 +1,4 @@
+import { MainLibraryEnum } from '@/app/enums/DepEnums';
 import type { File } from '@/app/interfaces/File';
 import { Tool } from '@/app/interfaces/Tool';
 
@@ -36,4 +37,23 @@ setCounter(0)
 }
 `,
   type: 'js'
+});
+
+export const makeHTML = ({ entryID = 'app', mainLibrary, tool }: { entryID?: string; mainLibrary: MainLibraryEnum; tool: Tool }): File => ({
+  name: 'index.html',
+  code: `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${tool} + ${mainLibrary}</title>
+  </head>
+  <body>
+    <div id="${entryID}"></div>
+    <script type="module" src="/src/main.js${mainLibrary === MainLibraryEnum.react ? 'x' : ''}"></script>
+  </body>
+</html>
+`,
+  type: 'html'
 });
