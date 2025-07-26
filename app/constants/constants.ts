@@ -1,4 +1,4 @@
-import { DepTitleEnum, MainLibraryEnum } from '../enums/DepEnums';
+import { BundlerEnum, DepTitleEnum, MainLibraryEnum } from '../enums/DepEnums';
 import { DepSelect } from '../interfaces/Dep';
 
 export const DEFAULT_ENTRY_ID = 'app';
@@ -21,12 +21,12 @@ export const prismLanguageMap = {
   vue: 'markup'
 };
 
-export const tools = ['Vite', 'Rspack', 'Webpack'] as const;
+export const tools = [BundlerEnum.Vite, BundlerEnum.Rspack, BundlerEnum.Webpack] as const;
 
 export const toolDescriptions = {
-  Vite: '現代化的前端構建工具，提供極快的開發服務器和構建速度',
-  Webpack: '強大的模組打包工具，支援多種資源類型和優化選項',
-  Rspack: '基於 Rust 的高性能打包工具，與 Webpack 生態系統相容，提供更快的構建速度'
+  [BundlerEnum.Vite]: '現代化的前端構建工具，提供極快的開發服務器和構建速度',
+  [BundlerEnum.Webpack]: '強大的模組打包工具，支援多種資源類型和優化選項',
+  [BundlerEnum.Rspack]: '基於 Rust 的高性能打包工具，與 Webpack 生態系統相容，提供更快的構建速度'
 } as const;
 
 export const depList: DepSelect[] = [

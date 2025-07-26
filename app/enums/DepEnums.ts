@@ -8,3 +8,9 @@ export enum MainLibraryEnum {
   vue = 'Vue',
   svelte = 'Svelte'
 }
+
+export enum BundlerEnum {
+  Webpack = 'Webpack',
+  Vite = 'Vite',
+  Rspack = 'Rspack'
+}
